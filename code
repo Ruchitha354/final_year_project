@@ -1,0 +1,108 @@
+ #define water_pump 5
+ #define pest_pump 4
+ #define mann_pump 3
+ 
+ 
+
+#define IN_1 10
+#define IN_2 11
+#define IN_3 12
+#define IN_4 13
+
+#define IR 9
+#define rain 8
+
+
+void goLeft(){ 
+      digitalWrite(IN_1, HIGH);
+      digitalWrite(IN_2, LOW);
+      digitalWrite(IN_3, HIGH);
+      digitalWrite(IN_4, LOW);
+  }
+ 
+void goRight(){ 
+      digitalWrite(IN_1, LOW);
+      digitalWrite(IN_2, HIGH);
+      digitalWrite(IN_3, LOW);
+      digitalWrite(IN_4, HIGH);
+  }
+
+void goForword(){ 
+      digitalWrite(IN_1, HIGH);
+      digitalWrite(IN_2, LOW);
+      digitalWrite(IN_3, LOW);
+      digitalWrite(IN_4, HIGH);
+  }
+
+void goBack(){
+      digitalWrite(IN_1, LOW);
+      digitalWrite(IN_2, HIGH); 
+      digitalWrite(IN_3, HIGH);
+      digitalWrite(IN_4, LOW);
+  }
+
+void hold(){  
+      digitalWrite(IN_1, LOW);
+      digitalWrite(IN_2, LOW);
+      digitalWrite(IN_3, LOW);
+      digitalWrite(IN_4, LOW);
+ }
+
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(water_pump,OUTPUT);
+  pinMode(pest_pump,OUTPUT);
+  pinMode(mann_pump,OUTPUT);
+  pinMode(IR,INPUT);
+  pinMode(rain,INPUT);
+  pinMode(IN_1, OUTPUT);
+  pinMode(IN_2, OUTPUT);
+  pinMode(IN_3, OUTPUT);
+  pinMode(IN_4, OUTPUT);
+  digitalWrite(water_pump,LOW);
+  
+  
+
+}
+
+void loop() {
+  int IRval = digitalRead(IR);
+  if (IRval == 0){
+  hold();
+  delay(200);
+  int rainVal = digitalRead(rain);
+  if(rainVal == 1){
+  digitalWrite(water_pump,HIGH);
+  Serial.println("Water Pump is ON");
+  delay(1000);
+  digitalWrite(water_pump,LOW);
+  Serial.println("Water Pump is OFF");
+  delay(200);
+  }
+  else{
+    digitalWrite(water_pump,LOW);
+  }
+  digitalWrite(pest_pump,HIGH);
+  Serial.println("Pesticides Pump is ON");
+  delay(2000);
+  digitalWrite(pest_pump,LOW);
+  Serial.println("Pesticides Pump is OFF");
+  delay(200);
+  digitalWrite(mann_pump,HIGH);
+  Serial.println("Manure Pump is ON");
+  delay(2000);
+  digitalWrite(mann_pump,LOW);
+  Serial.println("Manure Pump is OFF");
+  delay(200);
+  goForword();
+  delay(1500);
+}
+else{
+  goForword();
+  delay(1000);
+  digitalWrite(mann_pump,LOW);
+  digitalWrite(pest_pump,LOW);
+  digitalWrite(water_pump,LOW);
+}
+}
